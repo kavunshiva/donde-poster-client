@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import { AuthAdapter } from './adapters'
+import { AuthAdapter, PositionsAdapter } from './adapters'
 import LoginForm from './components/LoginForm'
+import PositionForm from './components/PositionForm'
 
 class App extends Component {
   constructor(){
@@ -12,13 +13,24 @@ class App extends Component {
       auth: {
         isLoggedIn: false,
         device: {}
+      },
+      position: {
+        lat: null,
+        long: null,
+        alt: null,
+        time: null,
+        prev_pos: null,
+        next_pos: null,
+        device_id: null
       }
     }
     this.login = this.login.bind(this)
+    this.postPosition = this.postPosition.bind(this)
+    this.loggedInDisplay = this.loggedInDisplay.bind(this)
   }
 
-  login(loginParams){
-    AuthAdapter.login(loginParams)
+  login(params){
+    AuthAdapter.login(params)
       .then(device => {
         if(!device.error){
           this.setState({
@@ -32,24 +44,55 @@ class App extends Component {
       })
   }
 
-  // componentDidMount(){
-  //   AuthAdapter.current_device()
-  //     .then(device => {
-  //       if(!device.error){
-  //         this.setState({
-  //           auth: {
-  //             isLoggedIn: true,
-  //             device: device
-  //           }
-  //         })
-  //       }
-  //     })
-  // }
+  postPosition(position){
+    position.time = new Date()
+    position.device_id = this.state.auth.device.id
+    PositionsAdapter.create(position)
+      .then(position => {
+        if(!position.error){
+          this.setState({
+            position: position
+          })
+        }
+      })
+  }
+
+  componentDidMount(){
+    AuthAdapter.currentDevice()
+      .then(device => {
+        if(!device.error){
+          this.setState({
+            auth: {
+              isLoggedIn: true,
+              device: device
+            }
+          })
+        }
+      })
+  }
+
+  loggedInDisplay(){
+    if(this.state.auth.isLoggedIn){
+      return (
+        <div>
+          <Route path="/" render={(routerProps) => <PositionForm onSubmit={this.postPosition} /> } />
+          <Link to="/" onClick={(routerProps) => localStorage.clear()}>Logout</Link>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Link to="/login">Login</Link>
+          <Route path="/login" render={ () => <LoginForm onSubmit={this.login} /> } />
+        </div>
+      )
+    }
+  }
 
   render() {
     return (
       <div>
-        <Route path="/login" render={ () => <LoginForm onSubmit={this.login} /> } />
+        {this.loggedInDisplay()}
       </div>
     )
   }

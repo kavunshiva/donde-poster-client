@@ -1,43 +1,32 @@
 const baseUrl = `http://localhost:3000/api/v1`
 
-const headers = () => {
-  return {
+const headers = {
     'content-type': 'application/json',
     'accept': 'application/json',
     'Authorization': localStorage.getItem('jwt')
-  }
 }
 
 export class AuthAdapter {
-  static login(loginParams){
+  static login(params){
     return fetch(`${baseUrl}/auth`, {
       method: 'post',
-      headers: headers(),
-      body: JSON.stringify(loginParams)
+      headers: headers,
+      body: JSON.stringify(params)
     }).then(res => res.json())
   }
 
   static currentDevice(){
     return fetch(`${baseUrl}/current_device`, {
-      headers: headers()
+      headers: headers
     }).then(res => res.json())
   }
 }
 
 export class PositionsAdapter {
-  // static all(){
-  //   fetch(baseUrl)
-  //     .then(res => res.json())
-  //     .then(console.log) // testing
-  // }
-
   static create(position){
     return fetch(`${baseUrl}/positions`, {
-        method: 'POST',
-        headers: {
-          "content-type": "application/json",
-          "accept": "application/json"
-        },
+        method: 'post',
+        headers: headers,
         body: JSON.stringify({
           position: position
         })
