@@ -31,9 +31,12 @@ export default class PositionForm extends Component {
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="lat" value={this.state.lat} onChange={this.handleChange} />
-        <input type="text" name="long" value={this.state.long} onChange={this.handleChange} />
-        <input type="text" name="alt" value={this.state.alt} onChange={this.handleChange} />
+        <label>Latitude</label>
+        <input type="text" name="lat" value={this.state.lat} onChange={this.handleChange} /><br/>
+        <label>Longitude</label>
+        <input type="text" name="long" value={this.state.long} onChange={this.handleChange} /><br/>
+        <label>Altitude</label>
+        <input type="text" name="alt" value={this.state.alt} onChange={this.handleChange} /><br/>
         <input type="submit" value="Post Position" />
       </form>
     )

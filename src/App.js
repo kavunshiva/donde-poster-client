@@ -25,6 +25,7 @@ class App extends Component {
       }
     }
     this.login = this.login.bind(this)
+    this.logout = this.logout.bind(this)
     this.postPosition = this.postPosition.bind(this)
     this.loggedInDisplay = this.loggedInDisplay.bind(this)
   }
@@ -32,7 +33,7 @@ class App extends Component {
   login(params){
     AuthAdapter.login(params)
       .then(device => {
-        if(!device.error){
+        if(device.jwt){
           this.setState({
             auth: {
               isLoggedIn: true,
@@ -42,6 +43,16 @@ class App extends Component {
           localStorage.setItem('jwt', device.jwt)
         }
       })
+  }
+
+  logout(){
+    localStorage.clear()
+    this.setState({
+      auth: {
+        isLoggedIn: false,
+        device: {}
+      }
+    })
   }
 
   postPosition(position){
@@ -76,14 +87,14 @@ class App extends Component {
       return (
         <div>
           <Route path="/" render={(routerProps) => <PositionForm onSubmit={this.postPosition} /> } />
-          <Link to="/" onClick={(routerProps) => localStorage.clear()}>Logout</Link>
+          <Link to="/" onClick={this.logout}>Logout</Link>
         </div>
       )
     } else {
       return (
         <div>
-          <Link to="/login">Login</Link>
-          <Route path="/login" render={ () => <LoginForm onSubmit={this.login} /> } />
+          <Route exact path="/" render={ () => <Link to="/login">Login</Link> } />
+          <Route path="/login" render={ (routerProps) => <LoginForm onSubmit={this.login} /> } />
         </div>
       )
     }

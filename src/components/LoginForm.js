@@ -29,8 +29,10 @@ export default class LoginForm extends Component {
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="device_name" value={this.state.device_name} onChange={this.handleChange} />
-        <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+        <label>Device ID</label>
+        <input type="text" name="device_name" value={this.state.device_name} onChange={this.handleChange} /><br/>
+        <label>Device Key</label>
+        <input type="password" name="password" value={this.state.password} onChange={this.handleChange} /><br/>
         <input type="submit" value="login" />
       </form>
     )
