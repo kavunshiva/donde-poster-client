@@ -37,7 +37,7 @@ export default class PositionForm extends Component {
         <input type="text" name="long" value={this.state.long} onChange={this.handleChange} /><br/>
         <label>Altitude</label>
         <input type="text" name="alt" value={this.state.alt} onChange={this.handleChange} /><br/>
-        <input type="submit" value="Post Position" />
+        <input type="submit" value="Post Position" className="btn btn-primary" />
       </form>
     )
   }

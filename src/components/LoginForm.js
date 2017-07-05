@@ -33,7 +33,7 @@ export default class LoginForm extends Component {
         <input type="text" name="device_name" value={this.state.device_name} onChange={this.handleChange} /><br/>
         <label>Device Key</label>
         <input type="password" name="password" value={this.state.password} onChange={this.handleChange} /><br/>
-        <input type="submit" value="login" />
+        <input type="submit" value="login" className="btn btn-primary" />
       </form>
     )
   }
