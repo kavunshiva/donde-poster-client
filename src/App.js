@@ -69,18 +69,20 @@ class App extends Component {
   }
 
   componentDidMount(){
-    AuthAdapter.currentDevice()
-      .then(device => {
-        if(localStorage.getItem('jwt')){
-          device.jwt = localStorage.getItem('jwt')
-          this.setState({
-            auth: {
-              isLoggedIn: true,
-              device: device
-            }
-          })
-        }
-      })
+    if(localStorage.getItem('jwt')){
+      AuthAdapter.currentDevice()
+        .then(device => {
+          if(!device.error){
+            device.jwt = localStorage.getItem('jwt')
+            this.setState({
+              auth: {
+                isLoggedIn: true,
+                device: device
+              }
+            })
+          }
+        })
+    }
   }
 
   loggedInDisplay(){
