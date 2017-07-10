@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button, Form } from 'semantic-ui-react'
 
 export default class PositionForm extends Component {
   constructor(){
@@ -30,15 +31,21 @@ export default class PositionForm extends Component {
 
   render(){
     return(
-      <form onSubmit={this.handleSubmit}>
-        <label>Latitude</label>
-        <input type="text" name="lat" value={this.state.lat} onChange={this.handleChange} /><br/>
-        <label>Longitude</label>
-        <input type="text" name="long" value={this.state.long} onChange={this.handleChange} /><br/>
-        <label>Altitude</label>
-        <input type="text" name="alt" value={this.state.alt} onChange={this.handleChange} /><br/>
-        <input type="submit" value="Post Position" className="btn btn-primary" />
-      </form>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Field>
+          <label>Latitude</label>
+          <input type="text" name="lat" value={this.state.lat} onChange={this.handleChange} /><br/>
+        </Form.Field>
+        <Form.Field>
+          <label>Longitude</label>
+          <input type="text" name="long" value={this.state.long} onChange={this.handleChange} /><br/>
+        </Form.Field>
+        <Form.Field>
+          <label>Altitude</label>
+          <input type="text" name="alt" value={this.state.alt} onChange={this.handleChange} /><br/>
+        </Form.Field>
+        <Button type="submit">Post Position</Button>
+      </Form>
     )
   }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
+import { Button, Menu } from 'semantic-ui-react'
 import logo from './logo.svg';
 import './App.css';
 import { AuthAdapter, PositionsAdapter } from './adapters'
@@ -89,14 +90,25 @@ class App extends Component {
     if(this.state.auth.isLoggedIn){
       return (
         <div>
+          <Menu>
+            <Menu.Menu>
+              <Menu.Item>
+                <strong>{this.state.auth.device.device_name}</strong>
+              </Menu.Item>
+            </Menu.Menu>
+            <Menu.Menu position="right">
+              <Menu.Item>
+                <Link to="/" onClick={this.logout}>Logout</Link>
+              </Menu.Item>
+            </Menu.Menu>
+          </Menu>
           <Route path="/" render={(routerProps) => <PositionForm onSubmit={this.postPosition} /> } />
-          <Link to="/" onClick={this.logout}>Logout</Link>
         </div>
       )
     } else {
       return (
         <div>
-          <Route exact path="/" render={ () => <Link to="/login">Login</Link> } />
+          <Route exact path="/" render={ () => <Button><Link to="/login">Login</Link></Button> } />
           <Route path="/login" render={ (routerProps) => <LoginForm onSubmit={this.login} /> } />
         </div>
       )
