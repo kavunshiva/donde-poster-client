@@ -24,7 +24,6 @@ export class AuthAdapter {
 
 export class PositionsAdapter {
   static create(position){
-    debugger
     return fetch(`${baseUrl}/positions`, {
         method: 'post',
         headers: headers(),

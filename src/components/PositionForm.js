@@ -11,6 +11,7 @@ export default class PositionForm extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.getLatLngFromDevice = this.getLatLngFromDevice.bind(this)
   }
 
   handleChange(e){
@@ -27,6 +28,24 @@ export default class PositionForm extends Component {
       long: "",
       alt: ""
     })
+    this.getLatLngFromDevice()
+  }
+
+  getLatLngFromDevice(){
+    navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude, altitude } = position.coords
+        this.setState({
+          lat: latitude ? latitude : "",
+          long: longitude ? longitude : "",
+          alt: altitude ? altitude : ""
+        })
+      },
+      console.log
+    )
+  }
+
+  componentDidMount(){
+    this.getLatLngFromDevice()
   }
 
   render(){
